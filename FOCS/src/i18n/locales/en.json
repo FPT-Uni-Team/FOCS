@@ -1,0 +1,13 @@
+{
+  "welcome": "Welcome Back",
+  "email": "Email",
+  "password": "Password",
+  "login": "Log In",
+  "logging_in": "Logging in...",
+  "enter_email": "Enter your email",
+  "enter_password": "Enter your password",
+  "required_email": "Please enter your email!",
+  "invalid_email": "Invalid email address!",
+  "required_password": "Please enter your password!",
+  "password_pattern": "Password must be at least 6 characters long, and include at least 1 lowercase letter, 1 uppercase letter, and 1 digit."
+}

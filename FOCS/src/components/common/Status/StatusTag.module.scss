@@ -1,0 +1,35 @@
+.custom-tag {
+  padding: 1px 4px;
+  font-weight: 500;
+  border: 1px solid;
+
+  &.ongoing {
+    background-color: #e7ffde;
+    color: #50923d;
+    border-color: #50923d;
+  }
+
+  &.expired {
+    background-color: #ffe9c8;
+    color: #ff9800;
+    border-color: #ff9800;
+  }
+
+  &.notstart {
+    background-color: #f1eeee;
+    color: black;
+    border-color: #ccc;
+  }
+
+  &.unavailable {
+    background-color: #ffb9b9;
+    color: #a40000;
+    border-color: red;
+  }
+
+  &.available {
+    background-color: #e6f4ff;
+    color: #1890ff;
+    border-color: #1890ff;
+  }
+}

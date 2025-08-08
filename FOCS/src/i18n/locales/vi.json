@@ -1,0 +1,123 @@
+{
+  "signIn": {
+    "welcome": "Chào mừng bạn quay lại",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "login": "Đăng nhập",
+    "logging_in": "Đang đăng nhập...",
+    "enter_email": "Nhập email của bạn",
+    "enter_password": "Nhập mật khẩu",
+    "required_email": "Vui lòng nhập email!",
+    "invalid_email": "Email không hợp lệ!",
+    "required_password": "Vui lòng nhập mật khẩu!",
+    "password_pattern": "Mật khẩu phải có ít nhất 6 ký tự, bao gồm chữ hoa, chữ thường và số.",
+    "do_not_account": "Bạn chưa có tài khoản?",
+    "sign_up": "Đăng ký",
+    "forgot_password": "Quên mật khẩu?"
+  },
+  "error_email_invalid": "Email không hợp lệ!",
+  "error_password_combined": "Mật khẩu phải có ít nhất 6 ký tự, bao gồm chữ hoa, chữ thường và số.",
+  "error_required": "Vui lòng nhập trường này!",
+  "error_phone_invalid": "Số điện thoại không hợp lệ!",
+  "error_password_not_match": "Mật khẩu không khớp!",
+  "sign_up": {
+    "title": "Tạo tài khoản",
+    "first_name": "Tên",
+    "first_name_placeholder": "Nhập tên của bạn",
+    "last_name": "Họ",
+    "last_name_placeholder": "Nhập họ của bạn",
+    "email": "Email",
+    "email_placeholder": "Nhập email của bạn",
+    "phone": "Số điện thoại",
+    "phone_placeholder": "Nhập số điện thoại",
+    "password": "Mật khẩu",
+    "password_placeholder": "••••••••",
+    "confirm_password": "Xác nhận mật khẩu",
+    "confirm_password_placeholder": "••••••••",
+    "submit": "Đăng ký",
+    "already_have_account": "Bạn đã có tài khoản?",
+    "sign_in": "Đăng nhập",
+    "check_email_title": "Xác nhận email của bạn",
+    "check_email_description": "Vui lòng kiểm tra email của bạn để xác nhận tài khoản.",
+    "go_to_sign_in": "Đi đến trang đăng nhập"
+  },
+  "forgot_password": {
+    "title": "Quên mật khẩu",
+    "email": "Email",
+    "email_placeholder": "Nhập địa chỉ email của bạn",
+    "submit": "Gửi yêu cầu",
+    "check_email_title": "Kiểm tra email của bạn",
+    "check_email_description": "Chúng tôi đã gửi một liên kết đặt lại mật khẩu đến địa chỉ email của bạn. Vui lòng kiểm tra hộp thư đến của bạn.",
+    "go_to_sign_in": "Đến trang đăng nhập"
+  },
+  "notification": {
+    "signUpSuccess": "Đăng ký thành công! Vui lòng kiểm tra email của bạn.",
+    "signUpFailed": "Đăng ký thất bại. Vui lòng thử lại."
+  },
+  "reset_password": {
+    "title": "Đặt lại mật khẩu",
+    "email": "Email",
+    "new_password": "Mật khẩu mới",
+    "confirm_password": "Xác nhận mật khẩu",
+    "submit_reset": "Đặt lại mật khẩu",
+    "reset_success": "Mật khẩu đã được đặt lại thành công!"
+  },
+  "brand": {
+    "title": "Thương hiệu",
+    "titleDetail": "Thông tin thương hiệu",
+    "notFound": "Không tồn tại thương hiệu",
+    "confirmDelete": "Xác nhận xóa thương hiệu",
+    "deleteWarning": "Bạn có chắc chắn muốn xóa thương hiệu này? Hành động này sẽ không thể hoàn tác.",
+    "button": {
+      "createBrand": "Tạo thương hiệu"
+    },
+    "table": {
+      "brandName": "Tên thương hiệu",
+      "defaultTaxRate": "Thuế suất mặc định",
+      "status": "Trạng thái",
+      "taxRateRange": "Thuế suất phải lớn hơn 0.01 và nhỏ hơn 1"
+    },
+    "status": {
+      "available": "Hoạt động",
+      "unavailable": "Ngừng hoạt động"
+    }
+  },
+  "common": {
+    "required": "Đây là trường bắt buộc",
+    "ok": "Tạo",
+    "cancel": "Hủy",
+    "update": "Cập nhật",
+    "delete": "Xóa"
+  },
+  "status": {
+    "ongoing": "Đang diễn ra",
+    "expired": "Đã hết hạn",
+    "notStart": "Chưa bắt đầu",
+    "unavailable": "Không khả dụng",
+    "upcoming": "Sắp diễn ra",
+    "available": "Khả dụng"
+  },
+  "store": {
+    "titleList": "Danh sách cửa hàng",
+    "table": {
+      "name": "Tên cửa hàng",
+      "address": "Địa chỉ",
+      "phoneNumber": "Số điện thoại",
+      "customTaxRate": "Thuế tùy chỉnh",
+      "status": "Trạng thái"
+    }
+  },
+  "home": {
+    "introTitle": "Khởi nghiệp tự tin cùng thương hiệu của bạn",
+    "introDescription": "Chúng tôi mang đến cho bạn giải pháp toàn diện để xây dựng, phát triển và quản lý thương hiệu trực tuyến một cách dễ dàng – hoàn toàn không cần đến kỹ năng lập trình. Dù bạn đang bắt đầu từ con số 0 hay đã có ý tưởng rõ ràng, nền tảng của chúng tôi sẽ giúp bạn biến ý tưởng thành hiện thực một cách nhanh chóng và chuyên nghiệp.",
+    "readyTitle": "Bạn đã sẵn sàng bắt đầu chưa?",
+    "readyDescription": "Hãy là một phần của cộng đồng hàng nghìn người đã và đang kiến tạo những câu chuyện thương hiệu thành công. Bắt đầu hành trình của bạn ngay hôm nay và để chúng tôi đồng hành trên từng bước phát triển.",
+    "startButton": "Bắt đầu xây dựng thương hiệu"
+  },
+  "header": {
+    "home": "Trang chủ",
+    "aboutUs": "Về chúng tôi",
+    "products": "Sản phẩm",
+    "contact": "Liên hệ"
+  }
+}
