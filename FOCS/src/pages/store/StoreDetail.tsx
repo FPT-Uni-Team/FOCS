@@ -151,7 +151,7 @@ const StoreDetail: React.FC = () => {
           </Descriptions.Item>
           <Descriptions.Item label={t("store.table.linkStore")}>
             <a
-              href={`${API_BASE_URL_ADMIN}/${store.id}`}
+              href={`${API_BASE_URL_ADMIN}/${store.id}/login`}
               target="_blank"
               rel="noopener noreferrer"
             >
