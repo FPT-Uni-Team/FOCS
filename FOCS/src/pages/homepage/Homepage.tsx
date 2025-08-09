@@ -1,7 +1,7 @@
 import { Button, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import styles from "./HomePage.module.scss";
+import styles from "./Homepage.module.scss";
 
 const { Title, Paragraph } = Typography;
 
