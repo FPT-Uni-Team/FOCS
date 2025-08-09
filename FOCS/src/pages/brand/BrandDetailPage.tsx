@@ -8,7 +8,6 @@ import {
   Form,
   Input,
   InputNumber,
-  message,
   Breadcrumb,
   Table,
 } from "antd";
@@ -18,7 +17,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import brandService from "../../services/brandService";
 import styles from "./Brand.module.scss";
 import FallBack from "../../components/common/fallback/FallBack";
-import storeService from "../../services/storeService";
+import storeService, { type StoreParams } from "../../services/storeService";
+import CustomLink from "../../components/common/Link/CustomLink";
 
 const BrandDetail: React.FC = () => {
   const { t } = useTranslation();
@@ -28,6 +28,7 @@ const BrandDetail: React.FC = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
+  const [formStore] = Form.useForm();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const { data, isLoading, isError } = useQuery({
@@ -42,7 +43,7 @@ const BrandDetail: React.FC = () => {
       storeService.getListStore({
         page: 1,
         page_size: 100,
-        filters: { brand_id: id as string },
+        filters: { name: brand.name as string },
       }),
     enabled: !!id,
   });
@@ -52,26 +53,30 @@ const BrandDetail: React.FC = () => {
   const deleteMutation = useMutation({
     mutationFn: (brandId: string) => brandService.deleteBrand(brandId),
     onSuccess: () => {
-      message.success(t("brand.deleteSuccess"));
       queryClient.invalidateQueries({ queryKey: ["brandList"] });
       navigate("/brands");
     },
-    onError: () => {
-      message.error(t("brand.deleteFail"));
-    },
+    onError: () => {},
   });
 
   const updateMutation = useMutation({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mutationFn: (params: any) => brandService.updateBrand(params),
     onSuccess: () => {
-      message.success(t("brand.updateSuccess"));
       queryClient.invalidateQueries({ queryKey: ["brandDetail", id] });
       setIsModalOpen(false);
     },
-    onError: () => {
-      message.error(t("brand.updateFail"));
+    onError: () => {},
+  });
+
+  const createStoreMutation = useMutation({
+    mutationFn: (params: StoreParams) => storeService.createStore(params),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["storeList", id] });
+      setIsModalOpen(false);
+      form.resetFields();
     },
+    onError: () => {},
   });
 
   const openDeleteModal = () => {
@@ -105,6 +110,16 @@ const BrandDetail: React.FC = () => {
       updateMutation.mutate({ id, ...values });
     });
   };
+  const openModal = () => {
+    form.resetFields();
+    setIsModalOpen(true);
+  };
+
+  const handleCreate = () => {
+    formStore.validateFields().then((values) => {
+      createStoreMutation.mutate({ ...values, brand_id: id });
+    });
+  };
 
   if (isLoading) {
     return (
@@ -123,6 +138,10 @@ const BrandDetail: React.FC = () => {
       title: t("store.table.name"),
       dataIndex: "name",
       key: "name",
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      render: (_: any, record: any) => (
+        <CustomLink title={record.name} href={`/stores/${record.id}`} />
+      ),
     },
     {
       title: t("store.table.address"),
@@ -219,7 +238,16 @@ const BrandDetail: React.FC = () => {
           <Form.Item
             label={t("brand.table.defaultTaxRate")}
             name="default_tax_rate"
-            rules={[{ required: true, message: t("brand.requiredTaxRate") }]}
+            rules={[
+              { required: true, message: t("store.requiredTaxRate") },
+              {
+                type: "number",
+                min: 0.1,
+                max: 1,
+                message: t("store.invalidTaxRate"),
+              },
+            ]}
+            required={false}
           >
             <InputNumber min={0} max={100} style={{ width: "100%" }} />
           </Form.Item>
@@ -246,15 +274,96 @@ const BrandDetail: React.FC = () => {
       >
         <h4>{t("brand.deleteWarning")}</h4>
       </Modal>
-      <Card title={t("store.titleList")} style={{ marginTop: 20 }}>
+      <Card
+        title={t("store.titleList")}
+        extra={
+          <Button type="primary" onClick={openModal}>
+            {t("store.createStore")}
+          </Button>
+        }
+        style={{ marginTop: 20 }}
+      >
         <Table
-          dataSource={storeData?.data || []}
+          dataSource={storeData?.data.items}
           columns={storeColumns}
           rowKey="id"
           loading={isStoreLoading}
           pagination={false}
         />
       </Card>
+
+      <Modal
+        title={t("store.createStore")}
+        open={isModalOpen}
+        onOk={handleCreate}
+        onCancel={() => setIsModalOpen(false)}
+        okText={t("common.ok")}
+        cancelText={t("common.cancel")}
+        confirmLoading={createStoreMutation.isPending}
+      >
+        <Form layout="vertical" form={formStore}>
+          <Form.Item
+            label={t("store.table.name")}
+            name="name"
+            rules={[{ required: true, message: t("store.requiredName") }]}
+            required={false}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label={t("store.table.address")}
+            name="address"
+            rules={[{ required: true, message: t("store.requiredAddress") }]}
+            required={false}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label={t("store.table.phoneNumber")}
+            name="phone_number"
+            rules={[
+              { required: true, message: t("store.requiredPhoneNumber") },
+              { pattern: /^\d+$/, message: t("store.invalidPhoneNumber") },
+            ]}
+            required={false}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label={t("store.table.customTaxRate")}
+            name="custom_tax_rate"
+            rules={[
+              { required: true, message: t("store.requiredTaxRate") },
+              {
+                type: "number",
+                min: 0.1,
+                max: 1,
+                message: t("store.invalidTaxRate"),
+              },
+            ]}
+            required={false}
+          >
+            <InputNumber
+              min={0.1}
+              max={1}
+              step={0.1}
+              style={{ width: "100%" }}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label={t("store.table.status")}
+            name="is_active"
+            valuePropName="checked"
+            initialValue={true}
+          >
+            <Switch />
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
   );
 };

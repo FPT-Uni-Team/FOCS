@@ -88,7 +88,7 @@ const endpoints = {
   store: {
     create: () => `${API_BASE_URL}/admin/store`,
     list: () => `${API_BASE_URL}/admin/stores`,
-    detail: (id: string) => `${API_BASE_URL}/admin/store/${id}`,
+    detail: (id: string) => `${API_BASE_URL}/admin/${id}`,
     update: (id: string) => `${API_BASE_URL}/admin/store/${id}`,
     delete: (id: string) => `${API_BASE_URL}/admin/store/${id}`,
   },

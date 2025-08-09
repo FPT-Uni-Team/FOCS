@@ -98,14 +98,35 @@
     "available": "Khả dụng"
   },
   "store": {
+    "brand": "Thương hiệu",
+    "titleDetail": "Thông tin thương hiệu",
     "titleList": "Danh sách cửa hàng",
+    "createStore": "Tạo cửa hàng mới",
+    "storeDetail": "Chi tiết cửa hàng",
+    "updateStore": "Cập nhật cửa hàng",
+    "deleteStore": "Xóa cửa hàng",
+    "deleteConfirm": "Bạn có chắc chắn muốn xóa cửa hàng này không?",
+    "deleteSuccess": "Xóa cửa hàng thành công",
+    "deleteFail": "Xóa cửa hàng thất bại",
+    "updateSuccess": "Cập nhật cửa hàng thành công",
+    "updateFail": "Cập nhật cửa hàng thất bại",
+    "confirmDelete": "Xác nhận xóa thương hiệu",
+    "deleteWarning": "Bạn có chắc chắn muốn xóa của hàng này? Hành động này sẽ không thể hoàn tác.",
     "table": {
+      "linkStore": "Đường dẫn trang quản lí cửa hàng",
       "name": "Tên cửa hàng",
       "address": "Địa chỉ",
       "phoneNumber": "Số điện thoại",
-      "customTaxRate": "Thuế tùy chỉnh",
+      "customTaxRate": "Thuế tùy chỉnh (%)",
       "status": "Trạng thái"
-    }
+    },
+    "requiredName": "Vui lòng nhập tên cửa hàng",
+    "requiredAddress": "Vui lòng nhập địa chỉ",
+    "requiredPhoneNumber": "Vui lòng nhập số điện thoại",
+    "invalidPhoneNumber": "Số điện thoại không hợp lệ",
+    "requiredTaxRate": "Vui lòng nhập thuế tùy chỉnh",
+    "createSuccess": "Tạo cửa hàng thành công",
+    "createFail": "Tạo cửa hàng thất bại"
   },
   "home": {
     "introTitle": "Khởi nghiệp tự tin cùng thương hiệu của bạn",
