@@ -7,7 +7,7 @@ const { Footer } = Layout;
 export const FooterComponent: React.FC = () => {
   return (
     <Footer className={styles.footer}>
-      ©{new Date().getFullYear()} Your Company. All rights reserved.
+      ©{new Date().getFullYear()} FOCS. All rights reserved.
     </Footer>
   );
 };

@@ -23,6 +23,20 @@ const storeService = {
     axiosClient.delete(endpoints.store.delete(params)),
   updateStore: (params: StoreParams) =>
     axiosClient.put(endpoints.store.update(params.id as string), params),
+  createBankAccount: (
+    data: {
+      bank_code: string;
+      bank_name: string;
+      account_number: string;
+      account_name: string;
+    },
+    storeId: string
+  ) =>
+    axiosClient.post(endpoints.store.createBankAccount(), data, {
+      headers: {
+        storeId,
+      },
+    }),
 };
 
 export default storeService;

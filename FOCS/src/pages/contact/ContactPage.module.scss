@@ -1,0 +1,38 @@
+.contactPage {
+  padding: 80px 40px;
+}
+
+.headerSection {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.infoSection {
+  margin-bottom: 40px;
+}
+
+.infoCard {
+  background: #fafafa;
+  padding: 24px;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08);
+
+  .infoIcon {
+    font-size: 36px;
+    margin-bottom: 12px;
+  }
+
+  .infoLabel {
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+}
+.formContainer {
+  margin-bottom: 100px;
+  .formSection {
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
+}

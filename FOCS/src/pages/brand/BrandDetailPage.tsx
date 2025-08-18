@@ -10,6 +10,7 @@ import {
   InputNumber,
   Breadcrumb,
   Table,
+  Select,
 } from "antd";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -27,8 +28,11 @@ const BrandDetail: React.FC = () => {
   const queryClient = useQueryClient();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenStore, setIsModalOpenStore] = useState(false);
+  const [step, setStep] = useState<1 | 2>(1);
   const [form] = Form.useForm();
   const [formStore] = Form.useForm();
+  const [formBank] = Form.useForm();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const { data, isLoading, isError } = useQuery({
@@ -46,6 +50,15 @@ const BrandDetail: React.FC = () => {
         filters: { name: brand.name as string },
       }),
     enabled: !!id,
+  });
+
+  const { data: bankList } = useQuery({
+    queryKey: ["bankList"],
+    queryFn: async () => {
+      const res = await fetch("https://api.vietqr.io/v2/banks");
+      return res.json();
+    },
+    enabled: step === 2,
   });
 
   const brand = data?.data;
@@ -69,14 +82,29 @@ const BrandDetail: React.FC = () => {
     onError: () => {},
   });
 
+  const handleNext = () => {
+    formStore.validateFields().then(() => setStep(2));
+  };
+
   const createStoreMutation = useMutation({
     mutationFn: (params: StoreParams) => storeService.createStore(params),
-    onSuccess: () => {
+    onSuccess: async (res) => {
+      const storeId = res.data.id;
+
+      const { bank_code, bank_name, account_number, account_name } =
+        formBank.getFieldsValue();
+
+      await storeService.createBankAccount(
+        { bank_code, bank_name, account_number, account_name },
+        storeId
+      );
+
       queryClient.invalidateQueries({ queryKey: ["storeList", id] });
-      setIsModalOpen(false);
-      form.resetFields();
+      setIsModalOpenStore(false);
+      setStep(1);
+      formStore.resetFields();
+      formBank.resetFields();
     },
-    onError: () => {},
   });
 
   const openDeleteModal = () => {
@@ -111,14 +139,22 @@ const BrandDetail: React.FC = () => {
     });
   };
   const openModal = () => {
-    form.resetFields();
-    setIsModalOpen(true);
+    formStore.resetFields();
+    setIsModalOpenStore(true);
   };
 
   const handleCreate = () => {
-    formStore.validateFields().then((values) => {
-      createStoreMutation.mutate({ ...values, brand_id: id });
-    });
+    const storeValues = formStore.getFieldsValue();
+    const { name, address, phone_number, custom_tax_rate, is_active } =
+      storeValues;
+    createStoreMutation.mutate({
+      name,
+      address,
+      phone_number,
+      custom_tax_rate,
+      is_active,
+      brand_id: id,
+    } as StoreParams);
   };
 
   if (isLoading) {
@@ -271,6 +307,7 @@ const BrandDetail: React.FC = () => {
         okButtonProps={{ danger: true }}
         centered
         maskClosable={false}
+        confirmLoading={deleteMutation.isPending}
       >
         <h4>{t("brand.deleteWarning")}</h4>
       </Modal>
@@ -294,14 +331,22 @@ const BrandDetail: React.FC = () => {
 
       <Modal
         title={t("store.createStore")}
-        open={isModalOpen}
-        onOk={handleCreate}
-        onCancel={() => setIsModalOpen(false)}
-        okText={t("common.ok")}
+        open={isModalOpenStore}
+        onOk={step === 1 ? handleNext : handleCreate}
+        onCancel={() => {
+          setIsModalOpenStore(false);
+          setStep(1);
+        }}
+        centered
+        okText={step === 1 ? t("common.next") : t("common.ok")}
         cancelText={t("common.cancel")}
         confirmLoading={createStoreMutation.isPending}
       >
-        <Form layout="vertical" form={formStore}>
+        <Form
+          layout="vertical"
+          form={formStore}
+          style={{ display: step === 1 ? "block" : "none" }}
+        >
           <Form.Item
             label={t("store.table.name")}
             name="name"
@@ -361,6 +406,64 @@ const BrandDetail: React.FC = () => {
             initialValue={true}
           >
             <Switch />
+          </Form.Item>
+        </Form>
+
+        <Form
+          layout="vertical"
+          form={formBank}
+          style={{ display: step === 2 ? "block" : "none" }}
+        >
+          <Form.Item
+            label={t("store.bankCode")}
+            name="bank_code"
+            rules={[{ required: true, message: t("store.requiredBankCode") }]}
+          >
+            <Select
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              options={bankList?.data.map((b: any) => ({
+                label: b.shortName,
+                value: b.code,
+              }))}
+              placeholder={t("store.selectBank")}
+              onChange={(value) => {
+                const selected = bankList?.data.find(
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  (b: any) => b.code === value
+                );
+                if (selected) {
+                  formBank.setFieldValue("bank_name", selected.name);
+                }
+              }}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label={t("store.bankName")}
+            name="bank_name"
+            rules={[{ required: true, message: t("store.requiredBankName") }]}
+          >
+            <Input disabled />
+          </Form.Item>
+
+          <Form.Item
+            label={t("store.accountNumber")}
+            name="account_number"
+            rules={[
+              { required: true, message: t("store.requiredAccountNumber") },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label={t("store.accountName")}
+            name="account_name"
+            rules={[
+              { required: true, message: t("store.requiredAccountName") },
+            ]}
+          >
+            <Input />
           </Form.Item>
         </Form>
       </Modal>

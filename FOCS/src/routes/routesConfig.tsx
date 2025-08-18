@@ -14,6 +14,7 @@ const ResetPassword = lazy(
 const Brand = lazy(() => import("../pages/brand/BrandPage"));
 const BrandDetail = lazy(() => import("../pages/brand/BrandDetailPage"));
 const StoreDetail = lazy(() => import("../pages/store/StoreDetail"));
+const ContactPage = lazy(() => import("../pages/contact/ContactPage"));
 
 export const routes: RouteObject[] = [
   {
@@ -51,6 +52,10 @@ export const routes: RouteObject[] = [
       {
         path: "/stores/:id",
         element: <StoreDetail />,
+      },
+      {
+        path: "/contact",
+        element: <ContactPage />,
       },
     ],
   },
