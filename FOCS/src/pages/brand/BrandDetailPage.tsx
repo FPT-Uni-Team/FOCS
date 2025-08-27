@@ -19,6 +19,7 @@ import brandService from "../../services/brandService";
 import styles from "./Brand.module.scss";
 import FallBack from "../../components/common/fallback/FallBack";
 import storeService, { type StoreParams } from "../../services/storeService";
+import manageService from "../../services/manageService";
 import CustomLink from "../../components/common/Link/CustomLink";
 
 const BrandDetail: React.FC = () => {
@@ -48,6 +49,17 @@ const BrandDetail: React.FC = () => {
         page: 1,
         page_size: 100,
         filters: { name: brand.name as string },
+      }),
+    enabled: !!id,
+  });
+
+  const { data: manageData, isLoading: isManageLoading } = useQuery({
+    queryKey: ["manageList", id],
+    queryFn: () =>
+      manageService.getListManage(id as string, {
+        page: 1,
+        page_size: 100,
+        filters: {},
       }),
     enabled: !!id,
   });
@@ -203,6 +215,41 @@ const BrandDetail: React.FC = () => {
     },
   ];
 
+  const manageColumns = [
+    {
+      title: t("manage.table.email"),
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: t("manage.table.phoneNumber"),
+      dataIndex: "phone_number",
+      key: "phone_number",
+    },
+    {
+      title: t("manage.table.firstName"),
+      dataIndex: "first_name",
+      key: "first_name",
+    },
+    {
+      title: t("manage.table.lastName"),
+      dataIndex: "last_name",
+      key: "last_name",
+    },
+    {
+      title: t("manage.table.roles"),
+      dataIndex: "roles",
+      key: "roles",
+      render: (roles: string[]) => roles.join(", "),
+    },
+    {
+      title: t("manage.table.status"),
+      dataIndex: "is_active",
+      key: "is_active",
+      render: (active: boolean) => <Switch checked={active} disabled />,
+    },
+  ];
+
   return (
     <>
       <Breadcrumb
@@ -325,6 +372,24 @@ const BrandDetail: React.FC = () => {
           columns={storeColumns}
           rowKey="id"
           loading={isStoreLoading}
+          pagination={false}
+        />
+      </Card>
+
+      <Card
+        title={t("manage.titleList")}
+        extra={
+          <Button type="primary">
+            {t("manage.createManage")}
+          </Button>
+        }
+        style={{ marginTop: 20 }}
+      >
+        <Table
+          dataSource={manageData?.data.items}
+          columns={manageColumns}
+          rowKey="id"
+          loading={isManageLoading}
           pagination={false}
         />
       </Card>

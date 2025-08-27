@@ -14,6 +14,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import storeService, { type StoreParams } from "../../services/storeService";
+
 import styles from "./StoreDetail.module.scss";
 import FallBack from "../../components/common/fallback/FallBack";
 
@@ -33,6 +34,8 @@ const StoreDetail: React.FC = () => {
     queryFn: () => storeService.getDetailStore(id as string),
     enabled: !!id,
   });
+
+
 
   const store = data?.data;
 
@@ -159,7 +162,7 @@ const StoreDetail: React.FC = () => {
             </a>
           </Descriptions.Item>
         </Descriptions>
-      </Card>
+             </Card>
 
       <Modal
         title={t("store.updateTitle")}

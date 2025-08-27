@@ -93,6 +93,9 @@ const endpoints = {
     delete: (id: string) => `${API_BASE_URL}/admin/store/${id}`,
     createBankAccount: () => `${API_BASE_URL}/payment/create-bank`,
   },
+  manage: {
+    list: (brandId: string) => `${API_BASE_URL}/manager/list/${brandId}`,
+  },
 };
 
 export default endpoints;

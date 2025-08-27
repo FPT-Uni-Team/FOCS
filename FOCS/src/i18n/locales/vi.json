@@ -136,7 +136,28 @@
     "requiredBankName": "Vui lòng nhập tên ngân hàng",
     "requiredAccountNumber": "Vui lòng nhập số tài khoản",
     "requiredAccountName": "Vui lòng nhập tên chủ tài khoản",
-    "selectBank": "Chọn ngân hàng"
+    "selectBank": "Chọn ngân hàng",
+    "manageTitle": "Thông tin quản lý cửa hàng",
+    "createManage": "Tạo quản lý mới",
+    "manage": {
+      "email": "Email",
+      "phoneNumber": "Số điện thoại",
+      "firstName": "Tên",
+      "lastName": "Họ",
+      "roles": "Vai trò"
+    }
+  },
+  "manage": {
+    "titleList": "Danh sách quản lý",
+    "createManage": "Tạo quản lý mới",
+    "table": {
+      "email": "Email",
+      "phoneNumber": "Số điện thoại",
+      "firstName": "Tên",
+      "lastName": "Họ",
+      "roles": "Vai trò",
+      "status": "Trạng thái"
+    }
   },
   "home": {
     "introTitle": "Khởi nghiệp tự tin cùng thương hiệu của bạn",

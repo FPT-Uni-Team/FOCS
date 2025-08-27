@@ -126,7 +126,28 @@
     "invalidPhoneNumber": "Invalid phone number",
     "requiredTaxRate": "Please enter custom tax rate",
     "createSuccess": "Store created successfully",
-    "createFail": "Failed to create store"
+    "createFail": "Failed to create store",
+    "manageTitle": "Store Management Information",
+    "createManage": "Create new management",
+    "manage": {
+      "email": "Email",
+      "phoneNumber": "Phone number",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "roles": "Roles"
+    }
+  },
+  "manage": {
+    "titleList": "Management list",
+    "createManage": "Create new management",
+    "table": {
+      "email": "Email",
+      "phoneNumber": "Phone number",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "roles": "Roles",
+      "status": "Status"
+    }
   },
   "home": {
     "introTitle": "Start your business with confidence in your brand",
