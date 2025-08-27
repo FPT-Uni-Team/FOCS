@@ -100,6 +100,7 @@
   "store": {
     "brand": "Brand",
     "titleDetail": "Brand information",
+    "storeInformation": "Store information",
     "titleList": "Store list",
     "createStore": "Create new store",
     "storeDetail": "Store details",
@@ -140,6 +141,18 @@
   "manage": {
     "titleList": "Management list",
     "createManage": "Create new management",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "requiredEmail": "Please enter email",
+    "invalidEmail": "Invalid email",
+    "requiredPhoneNumber": "Please enter phone number",
+    "invalidPhoneNumber": "Invalid phone number",
+    "requiredFirstName": "Please enter first name",
+    "requiredLastName": "Please enter last name",
+    "requiredPassword": "Please enter password",
+    "invalidPassword": "Password must be at least 6 characters long, including uppercase letters, lowercase letters, and numbers",
+    "requiredConfirmPassword": "Please confirm password",
+    "passwordNotMatch": "Passwords do not match",
     "table": {
       "email": "Email",
       "phoneNumber": "Phone number",

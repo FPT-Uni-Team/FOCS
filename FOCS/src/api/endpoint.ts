@@ -95,6 +95,7 @@ const endpoints = {
   },
   manage: {
     list: (brandId: string) => `${API_BASE_URL}/manager/list/${brandId}`,
+    create: (storeId: string) => `${API_BASE_URL}/manager/${storeId}`,
   },
 };
 

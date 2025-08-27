@@ -101,6 +101,7 @@
   "store": {
     "brand": "Thương hiệu",
     "titleDetail": "Thông tin thương hiệu",
+    "storeInformation": "Thông tin cửa hàng",
     "titleList": "Danh sách cửa hàng",
     "createStore": "Tạo cửa hàng mới",
     "storeDetail": "Chi tiết cửa hàng",
@@ -150,6 +151,18 @@
   "manage": {
     "titleList": "Danh sách quản lý",
     "createManage": "Tạo quản lý mới",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "requiredEmail": "Vui lòng nhập email",
+    "invalidEmail": "Email không hợp lệ",
+    "requiredPhoneNumber": "Vui lòng nhập số điện thoại",
+    "invalidPhoneNumber": "Số điện thoại không hợp lệ",
+    "requiredFirstName": "Vui lòng nhập tên",
+    "requiredLastName": "Vui lòng nhập họ",
+    "requiredPassword": "Vui lòng nhập mật khẩu",
+    "invalidPassword": "Mật khẩu phải có ít nhất 6 ký tự, bao gồm chữ hoa, chữ thường và số",
+    "requiredConfirmPassword": "Vui lòng xác nhận mật khẩu",
+    "passwordNotMatch": "Mật khẩu không khớp",
     "table": {
       "email": "Email",
       "phoneNumber": "Số điện thoại",

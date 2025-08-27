@@ -113,14 +113,14 @@ const StoreDetail: React.FC = () => {
             ),
           },
           {
-            title: t("store.titleDetail"),
+            title: t("store.storeInformation"),
           },
         ]}
       />
 
       <Card
         style={{ margin: "20px auto" }}
-        title={t("store.titleDetail")}
+        title={t("store.storeInformation")}
         extra={
           <>
             <Button
