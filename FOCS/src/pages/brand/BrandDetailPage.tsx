@@ -19,6 +19,7 @@ import brandService from "../../services/brandService";
 import styles from "./Brand.module.scss";
 import FallBack from "../../components/common/fallback/FallBack";
 import storeService, { type StoreParams } from "../../services/storeService";
+import manageService, { type ManageParams } from "../../services/manageService";
 import CustomLink from "../../components/common/Link/CustomLink";
 
 const BrandDetail: React.FC = () => {
@@ -29,10 +30,12 @@ const BrandDetail: React.FC = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenStore, setIsModalOpenStore] = useState(false);
+  const [isModalOpenManage, setIsModalOpenManage] = useState(false);
   const [step, setStep] = useState<1 | 2>(1);
   const [form] = Form.useForm();
   const [formStore] = Form.useForm();
   const [formBank] = Form.useForm();
+  const [formManage] = Form.useForm();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const { data, isLoading, isError } = useQuery({
@@ -48,6 +51,17 @@ const BrandDetail: React.FC = () => {
         page: 1,
         page_size: 100,
         filters: { name: brand.name as string },
+      }),
+    enabled: !!id,
+  });
+
+  const { data: manageData, isLoading: isManageLoading } = useQuery({
+    queryKey: ["manageList", id],
+    queryFn: () =>
+      manageService.getListManage(id as string, {
+        page: 1,
+        page_size: 100,
+        filters: {},
       }),
     enabled: !!id,
   });
@@ -107,6 +121,16 @@ const BrandDetail: React.FC = () => {
     },
   });
 
+  const createManageMutation = useMutation({
+    mutationFn: (params: ManageParams) =>
+      manageService.createManage(storeData?.data.items?.[0]?.id as string, params),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["manageList", id] });
+      setIsModalOpenManage(false);
+      formManage.resetFields();
+    },
+  });
+
   const openDeleteModal = () => {
     setIsDeleteModalOpen(true);
   };
@@ -143,6 +167,11 @@ const BrandDetail: React.FC = () => {
     setIsModalOpenStore(true);
   };
 
+  const openManageModal = () => {
+    formManage.resetFields();
+    setIsModalOpenManage(true);
+  };
+
   const handleCreate = () => {
     const storeValues = formStore.getFieldsValue();
     const { name, address, phone_number, custom_tax_rate, is_active } =
@@ -155,6 +184,12 @@ const BrandDetail: React.FC = () => {
       is_active,
       brand_id: id,
     } as StoreParams);
+  };
+
+  const handleCreateManage = () => {
+    formManage.validateFields().then((values) => {
+      createManageMutation.mutate(values);
+    });
   };
 
   if (isLoading) {
@@ -197,6 +232,41 @@ const BrandDetail: React.FC = () => {
     },
     {
       title: t("store.table.status"),
+      dataIndex: "is_active",
+      key: "is_active",
+      render: (active: boolean) => <Switch checked={active} disabled />,
+    },
+  ];
+
+  const manageColumns = [
+    {
+      title: t("manage.table.email"),
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: t("manage.table.phoneNumber"),
+      dataIndex: "phone_number",
+      key: "phone_number",
+    },
+    {
+      title: t("manage.table.firstName"),
+      dataIndex: "first_name",
+      key: "first_name",
+    },
+    {
+      title: t("manage.table.lastName"),
+      dataIndex: "last_name",
+      key: "last_name",
+    },
+    {
+      title: t("manage.table.roles"),
+      dataIndex: "roles",
+      key: "roles",
+      render: (roles: string[]) => roles.join(", "),
+    },
+    {
+      title: t("manage.table.status"),
       dataIndex: "is_active",
       key: "is_active",
       render: (active: boolean) => <Switch checked={active} disabled />,
@@ -325,6 +395,24 @@ const BrandDetail: React.FC = () => {
           columns={storeColumns}
           rowKey="id"
           loading={isStoreLoading}
+          pagination={false}
+        />
+      </Card>
+
+      <Card
+        title={t("manage.titleList")}
+        extra={
+          <Button type="primary" onClick={openManageModal}>
+            {t("manage.createManage")}
+          </Button>
+        }
+        style={{ marginTop: 20 }}
+      >
+        <Table
+          dataSource={manageData?.data.items}
+          columns={manageColumns}
+          rowKey="id"
+          loading={isManageLoading}
           pagination={false}
         />
       </Card>
@@ -465,10 +553,93 @@ const BrandDetail: React.FC = () => {
           >
             <Input />
           </Form.Item>
-        </Form>
-      </Modal>
-    </>
-  );
+                 </Form>
+       </Modal>
+
+       <Modal
+         title={t("manage.createManage")}
+         open={isModalOpenManage}
+         onOk={handleCreateManage}
+         onCancel={() => setIsModalOpenManage(false)}
+         centered
+         okText={t("common.ok")}
+         cancelText={t("common.cancel")}
+         confirmLoading={createManageMutation.isPending}
+       >
+         <Form layout="vertical" form={formManage}>
+           <Form.Item
+             label={t("manage.table.email")}
+             name="email"
+             rules={[
+               { required: true, message: t("manage.requiredEmail") },
+               { type: "email", message: t("manage.invalidEmail") },
+             ]}
+           >
+             <Input />
+           </Form.Item>
+
+           <Form.Item
+             label={t("manage.table.phoneNumber")}
+             name="phone"
+             rules={[
+               { required: true, message: t("manage.requiredPhoneNumber") },
+               { pattern: /^\d+$/, message: t("manage.invalidPhoneNumber") },
+             ]}
+           >
+             <Input />
+           </Form.Item>
+
+           <Form.Item
+             label={t("manage.table.firstName")}
+             name="first_name"
+             rules={[{ required: true, message: t("manage.requiredFirstName") }]}
+           >
+             <Input />
+           </Form.Item>
+
+           <Form.Item
+             label={t("manage.table.lastName")}
+             name="last_name"
+             rules={[{ required: true, message: t("manage.requiredLastName") }]}
+           >
+             <Input />
+           </Form.Item>
+
+           <Form.Item
+             label={t("manage.password")}
+             name="password"
+             rules={[
+               { required: true, message: t("manage.requiredPassword") },
+               {
+                 pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{6,}$/,
+                 message: t("manage.invalidPassword"),
+               },
+             ]}
+           >
+             <Input.Password />
+           </Form.Item>
+
+           <Form.Item
+             label={t("manage.confirmPassword")}
+             name="confirm_password"
+             rules={[
+               { required: true, message: t("manage.requiredConfirmPassword") },
+               ({ getFieldValue }) => ({
+                 validator(_, value) {
+                   if (!value || getFieldValue("password") === value) {
+                     return Promise.resolve();
+                   }
+                   return Promise.reject(new Error(t("manage.passwordNotMatch")));
+                 },
+               }),
+             ]}
+           >
+             <Input.Password />
+           </Form.Item>
+         </Form>
+       </Modal>
+     </>
+   );
 };
 
 export default BrandDetail;
