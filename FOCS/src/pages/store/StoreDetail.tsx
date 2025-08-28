@@ -14,6 +14,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import storeService, { type StoreParams } from "../../services/storeService";
+import manageService, { type UpdateManageParams } from "../../services/manageService";
 
 import styles from "./StoreDetail.module.scss";
 import FallBack from "../../components/common/fallback/FallBack";
@@ -27,7 +28,10 @@ const StoreDetail: React.FC = () => {
 
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isUpdateManagerModalOpen, setIsUpdateManagerModalOpen] = useState(false);
+  const [isDeleteManagerModalOpen, setIsDeleteManagerModalOpen] = useState(false);
   const [formUpdate] = Form.useForm();
+  const [formUpdateManager] = Form.useForm();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["storeDetail", id],
@@ -35,9 +39,20 @@ const StoreDetail: React.FC = () => {
     enabled: !!id,
   });
 
+  const { data: managerData, isLoading: isManagerLoading } = useQuery({
+    queryKey: ["managerList", id],
+    queryFn: () => manageService.getListAllManage({
+      page: 1,
+      page_size: 100,
+      filters: {},
+    }, id as string),
+    enabled: !!id,
+  });
+
 
 
   const store = data?.data;
+  const manager = managerData?.data?.items?.[0];
 
   const deleteMutation = useMutation({
     mutationFn: (storeId: string) => storeService.deleteStore(storeId),
@@ -53,6 +68,23 @@ const StoreDetail: React.FC = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["storeDetail", id] });
       setIsUpdateModalOpen(false);
+    },
+  });
+
+  const updateManagerMutation = useMutation({
+    mutationFn: (params: UpdateManageParams) =>
+      manageService.updateManage(params.id, params),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["managerList", id] });
+      setIsUpdateManagerModalOpen(false);
+    },
+  });
+
+  const deleteManagerMutation = useMutation({
+    mutationFn: (managerId: string) => manageService.deleteManage(managerId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["managerList", id] });
+      setIsDeleteManagerModalOpen(false);
     },
   });
 
@@ -83,6 +115,34 @@ const StoreDetail: React.FC = () => {
         ...values,
       });
     });
+  };
+
+  const handleOpenUpdateManager = () => {
+    formUpdateManager.setFieldsValue({
+      email: manager.email,
+      phone_number: manager.phone_number,
+      first_name: manager.first_name,
+      last_name: manager.last_name,
+      roles: manager.roles,
+    });
+    setIsUpdateManagerModalOpen(true);
+  };
+
+  const handleUpdateManagerOk = () => {
+    formUpdateManager.validateFields().then((values) => {
+      updateManagerMutation.mutate({
+        id: manager.id,
+        ...values,
+      });
+    });
+  };
+
+  const openDeleteManagerModal = () => setIsDeleteManagerModalOpen(true);
+  const closeDeleteManagerModal = () => setIsDeleteManagerModalOpen(false);
+
+  const handleConfirmDeleteManager = async () => {
+    await deleteManagerMutation.mutateAsync(manager.id);
+    setIsDeleteManagerModalOpen(false);
   };
 
   if (isLoading) {
@@ -162,7 +222,46 @@ const StoreDetail: React.FC = () => {
             </a>
           </Descriptions.Item>
         </Descriptions>
-             </Card>
+      </Card>
+
+             {manager && (
+         <Card
+           style={{ margin: "20px auto" }}
+           title={t("manage.managerInformation")}
+           extra={
+             <>
+                               <Button
+                  type="primary"
+                  onClick={handleOpenUpdateManager}
+                  style={{ marginRight: 8 }}
+                >
+                  {t("common.update")}
+                </Button>
+                               <Button danger onClick={openDeleteManagerModal}>
+                  {t("common.delete")}
+                </Button>
+             </>
+           }
+         >
+          <Descriptions bordered column={1}>
+            <Descriptions.Item label={t("manage.table.email")}>
+              {manager.email}
+            </Descriptions.Item>
+            <Descriptions.Item label={t("manage.table.phoneNumber")}>
+              {manager.phone_number}
+            </Descriptions.Item>
+            <Descriptions.Item label={t("manage.table.firstName")}>
+              {manager.first_name}
+            </Descriptions.Item>
+            <Descriptions.Item label={t("manage.table.lastName")}>
+              {manager.last_name}
+            </Descriptions.Item>
+            <Descriptions.Item label={t("manage.table.roles")}>
+              {manager.roles?.join(", ")}
+            </Descriptions.Item>
+          </Descriptions>
+        </Card>
+      )}
 
       <Modal
         title={t("store.updateTitle")}
@@ -228,19 +327,88 @@ const StoreDetail: React.FC = () => {
         </Form>
       </Modal>
 
-      <Modal
-        title={t("store.confirmDelete")}
-        open={isDeleteModalOpen}
-        onCancel={closeDeleteModal}
-        onOk={handleConfirmDelete}
-        okText={t("common.delete")}
-        cancelText={t("common.cancel")}
-        okButtonProps={{ danger: true }}
-        centered
-        maskClosable={false}
-      >
-        <h4>{t("store.deleteWarning")}</h4>
-      </Modal>
+             <Modal
+         title={t("manage.updateTitle")}
+         open={isUpdateManagerModalOpen}
+         onOk={handleUpdateManagerOk}
+         onCancel={() => setIsUpdateManagerModalOpen(false)}
+         okText={t("common.ok")}
+         cancelText={t("common.cancel")}
+         confirmLoading={updateManagerMutation.isPending}
+       >
+         <Form layout="vertical" form={formUpdateManager}>
+           <Form.Item
+             label={t("manage.table.email")}
+             name="email"
+             rules={[
+               { required: true, message: t("manage.requiredEmail") },
+               { type: "email", message: t("manage.invalidEmail") },
+             ]}
+           >
+             <Input />
+           </Form.Item>
+           <Form.Item
+             label={t("manage.table.phoneNumber")}
+             name="phone_number"
+             rules={[
+               { required: true, message: t("manage.requiredPhoneNumber") },
+               { pattern: /^\d+$/, message: t("manage.invalidPhoneNumber") },
+             ]}
+           >
+             <Input />
+           </Form.Item>
+           <Form.Item
+             label={t("manage.table.firstName")}
+             name="first_name"
+             rules={[{ required: true, message: t("manage.requiredFirstName") }]}
+           >
+             <Input />
+           </Form.Item>
+           <Form.Item
+             label={t("manage.table.lastName")}
+             name="last_name"
+             rules={[{ required: true, message: t("manage.requiredLastName") }]}
+           >
+             <Input />
+           </Form.Item>
+           <Form.Item
+             label={t("manage.table.roles")}
+             name="roles"
+             rules={[{ required: true, message: "Vui lòng nhập vai trò" }]}
+           >
+             <Input placeholder="Nhập vai trò, phân cách bằng dấu phẩy" />
+           </Form.Item>
+         </Form>
+       </Modal>
+
+               <Modal
+          title={t("manage.confirmDelete")}
+          open={isDeleteManagerModalOpen}
+          onCancel={closeDeleteManagerModal}
+          onOk={handleConfirmDeleteManager}
+          okText={t("common.delete")}
+          cancelText={t("common.cancel")}
+          okButtonProps={{ danger: true }}
+          centered
+          maskClosable={false}
+          confirmLoading={deleteManagerMutation.isPending}
+        >
+          <h4>{t("manage.deleteWarning")}</h4>
+        </Modal>
+
+        <Modal
+          title={t("store.confirmDelete")}
+          open={isDeleteModalOpen}
+          onCancel={closeDeleteModal}
+          onOk={handleConfirmDelete}
+          okText={t("common.delete")}
+          cancelText={t("common.cancel")}
+          okButtonProps={{ danger: true }}
+          centered
+          maskClosable={false}
+        >
+          <h4>{t("store.deleteWarning")}</h4>
+        </Modal>
     </>
   );
 };

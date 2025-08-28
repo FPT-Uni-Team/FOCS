@@ -151,6 +151,10 @@
   "manage": {
     "titleList": "Danh sách quản lý",
     "createManage": "Tạo quản lý mới",
+    "managerInformation": "Thông tin quản lý",
+    "updateTitle": "Cập nhật thông tin quản lý",
+    "confirmDelete": "Xác nhận xóa quản lý",
+    "deleteWarning": "Bạn có chắc chắn muốn xóa quản lý này? Hành động này sẽ không thể hoàn tác.",
     "password": "Mật khẩu",
     "confirmPassword": "Xác nhận mật khẩu",
     "requiredEmail": "Vui lòng nhập email",
