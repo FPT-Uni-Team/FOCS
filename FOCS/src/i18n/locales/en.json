@@ -178,5 +178,24 @@
     "aboutUs": "About Us",
     "products": "Products",
     "contact": "Contact"
+  },
+  "about": {
+    "heroTitle": "About Us",
+    "heroDescription": "We are a passionate technology team, committed to providing the best solutions to help you build a successful brand.",
+    "missionTitle": "Our Mission",
+    "missionDescription": "We believe that every business, big or small, deserves a strong and professional brand. Our mission is to simplify the brand building process, helping you focus on what matters most - developing products and serving customers.",
+    "valuesTitle": "Core Values",
+    "value1Title": "Partnership",
+    "value1Description": "We always accompany you in every step of brand development.",
+    "value2Title": "Innovation",
+    "value2Description": "Continuously improving and developing advanced technology solutions.",
+    "value3Title": "Dedication",
+    "value3Description": "Putting customer satisfaction at the center of all activities.",
+    "value4Title": "Quality",
+    "value4Description": "Committed to delivering the highest quality products and services.",
+    "storyTitle": "Our Story",
+    "storyDescription": "Founded with the vision of helping small businesses and startups access professional brand building tools. We understand that not everyone has the resources to hire large agencies, so we created this platform so everyone can build their own brand.",
+    "ctaTitle": "Let's build the future together",
+    "ctaDescription": "Join thousands of businesses that have trusted and chosen us to develop their brands."
   }
 }
