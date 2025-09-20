@@ -214,5 +214,24 @@
     "aboutUs": "Về chúng tôi",
     "products": "Sản phẩm",
     "contact": "Liên hệ"
+  },
+  "about": {
+    "heroTitle": "Về chúng tôi",
+    "heroDescription": "Chúng tôi là đội ngũ đam mê công nghệ, cam kết mang đến những giải pháp tốt nhất để giúp bạn xây dựng thương hiệu thành công.",
+    "missionTitle": "Sứ mệnh của chúng tôi",
+    "missionDescription": "Chúng tôi tin rằng mọi doanh nghiệp, dù lớn hay nhỏ, đều xứng đáng có một thương hiệu mạnh mẽ và chuyên nghiệp. Nhiệm vụ của chúng tôi là đơn giản hóa quá trình xây dựng thương hiệu, giúp bạn tập trung vào những gì quan trọng nhất - phát triển sản phẩm và phục vụ khách hàng.",
+    "valuesTitle": "Giá trị cốt lõi",
+    "value1Title": "Đồng hành",
+    "value1Description": "Chúng tôi luôn đồng hành cùng bạn trong mọi bước phát triển thương hiệu.",
+    "value2Title": "Đổi mới",
+    "value2Description": "Không ngừng cải tiến và phát triển các giải pháp công nghệ tiên tiến.",
+    "value3Title": "Tận tâm",
+    "value3Description": "Đặt sự hài lòng của khách hàng làm trung tâm trong mọi hoạt động.",
+    "value4Title": "Chất lượng",
+    "value4Description": "Cam kết mang đến những sản phẩm và dịch vụ chất lượng cao nhất.",
+    "storyTitle": "Câu chuyện của chúng tôi",
+    "storyDescription": "Được thành lập với tầm nhìn giúp các doanh nghiệp nhỏ và startup có thể tiếp cận với những công cụ xây dựng thương hiệu chuyên nghiệp. Chúng tôi hiểu rằng không phải ai cũng có đủ nguồn lực để thuê các agency lớn, vì vậy chúng tôi tạo ra nền tảng này để mọi người đều có thể xây dựng thương hiệu của riêng mình.",
+    "ctaTitle": "Hãy cùng chúng tôi xây dựng tương lai",
+    "ctaDescription": "Tham gia cùng hàng nghìn doanh nghiệp đã tin tưởng và lựa chọn chúng tôi để phát triển thương hiệu của họ."
   }
 }
